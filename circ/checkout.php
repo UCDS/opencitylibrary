@@ -51,8 +51,14 @@
     $err = $circQ->checkout_due_e($mbr->getBarcodeNmbr(), $barcode, $dueDate);
     checkerror('barcodeNmbr', $err);
   } else {
-    $err = $circQ->checkout_e($mbr->getBarcodeNmbr(), $barcode);
-    checkerror('barcodeNmbr', $err);
+  	$user=$_SESSION['userid'];
+	$err=$circQ->validateCheckOut($user,$barcode);
+	if($err==NULL)
+	{
+	    $err = $circQ->checkout_e($mbr->getBarcodeNmbr(), $barcode);		
+	}
+	checkerror('barcodeNmbr', $err);
+
   }
 
   unset($_SESSION["postVars"]);
